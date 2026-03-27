@@ -43,8 +43,8 @@ function updateSummary() {
   let value = 0;
 
   shares.forEach(s => {
-    investment += s.qty * s.price;
-    value += s.qty * s.current;
+    investment += (s.qty || 0) * (s.price || 0);
+value += (s.qty || 0) * (s.current || 0);
   });
 
   document.getElementById("investment").innerText = investment;
