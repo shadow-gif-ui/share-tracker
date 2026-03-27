@@ -2,9 +2,50 @@
 <html>
 <head>
   <title>Share Tracker</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    input { margin: 5px; padding: 5px; }
+    button { padding: 5px 10px; }
+    table { border-collapse: collapse; margin-top: 20px; }
+    td, th { border: 1px solid black; padding: 8px; }
+  </style>
 </head>
 <body>
-  <h1>🚀 My Share Tracker</h1>
-  <p>Project started successfully!</p>
+
+<h2>📊 My Share Tracker</h2>
+
+<input id="name" placeholder="Stock Name">
+<input id="date" type="date">
+<input id="qty" type="number" placeholder="Quantity">
+<input id="price" type="number" placeholder="Buy Price">
+
+<button onclick="addShare()">Add Share</button>
+
+<table id="table">
+  <tr>
+    <th>Name</th>
+    <th>Date</th>
+    <th>Qty</th>
+    <th>Price</th>
+  </tr>
+</table>
+
+<script>
+function addShare() {
+  let name = document.getElementById("name").value;
+  let date = document.getElementById("date").value;
+  let qty = document.getElementById("qty").value;
+  let price = document.getElementById("price").value;
+
+  let table = document.getElementById("table");
+  let row = table.insertRow();
+
+  row.insertCell(0).innerText = name;
+  row.insertCell(1).innerText = date;
+  row.insertCell(2).innerText = qty;
+  row.insertCell(3).innerText = price;
+}
+</script>
+
 </body>
 </html>
