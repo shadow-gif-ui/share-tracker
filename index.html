@@ -18,8 +18,12 @@
 <input id="date" type="date">
 <input id="qty" type="number" placeholder="Quantity">
 <input id="price" type="number" placeholder="Buy Price">
+<input id="current" type="number" placeholder="Current Price">
 
 <button onclick="addShare()">Add Share</button>
+<h3>Total Investment: ₹<span id="investment">0</span></h3>
+<h3>Current Value: ₹<span id="value">0</span></h3>
+<h3>Profit/Loss: ₹<span id="profit">0</span></h3>
 
 <table id="table">
   <tr>
@@ -27,13 +31,27 @@
     <th>Date</th>
     <th>Qty</th>
     <th>Price</th>
+    <th>Current Price</th>
   </tr>
 </table>
 
 <script>
 let shares = JSON.parse(localStorage.getItem("shares")) || [];
 
-// Load existing data when page opens
+function updateSummary() {
+  let investment = 0;
+  let value = 0;
+
+  shares.forEach(s => {
+    investment += s.qty * s.price;
+    value += s.qty * s.current;
+  });
+
+  document.getElementById("investment").innerText = investment;
+  document.getElementById("value").innerText = value;
+  document.getElementById("profit").innerText = value - investment;
+}
+
 window.onload = function() {
   let table = document.getElementById("table");
 
@@ -43,16 +61,20 @@ window.onload = function() {
     row.insertCell(1).innerText = s.date;
     row.insertCell(2).innerText = s.qty;
     row.insertCell(3).innerText = s.price;
+    row.insertCell(4).innerText = s.current;
   });
+
+  updateSummary();
 };
 
 function addShare() {
   let name = document.getElementById("name").value;
   let date = document.getElementById("date").value;
-  let qty = document.getElementById("qty").value;
-  let price = document.getElementById("price").value;
+  let qty = parseFloat(document.getElementById("qty").value);
+  let price = parseFloat(document.getElementById("price").value);
+  let current = parseFloat(document.getElementById("current").value);
 
-  let newShare = { name, date, qty, price };
+  let newShare = { name, date, qty, price, current };
   shares.push(newShare);
 
   localStorage.setItem("shares", JSON.stringify(shares));
@@ -64,6 +86,9 @@ function addShare() {
   row.insertCell(1).innerText = date;
   row.insertCell(2).innerText = qty;
   row.insertCell(3).innerText = price;
+  row.insertCell(4).innerText = current;
+
+  updateSummary();
 }
 </script>
 
