@@ -31,11 +31,31 @@
 </table>
 
 <script>
+let shares = JSON.parse(localStorage.getItem("shares")) || [];
+
+// Load existing data when page opens
+window.onload = function() {
+  let table = document.getElementById("table");
+
+  shares.forEach(s => {
+    let row = table.insertRow();
+    row.insertCell(0).innerText = s.name;
+    row.insertCell(1).innerText = s.date;
+    row.insertCell(2).innerText = s.qty;
+    row.insertCell(3).innerText = s.price;
+  });
+};
+
 function addShare() {
   let name = document.getElementById("name").value;
   let date = document.getElementById("date").value;
   let qty = document.getElementById("qty").value;
   let price = document.getElementById("price").value;
+
+  let newShare = { name, date, qty, price };
+  shares.push(newShare);
+
+  localStorage.setItem("shares", JSON.stringify(shares));
 
   let table = document.getElementById("table");
   let row = table.insertRow();
